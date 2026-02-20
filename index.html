@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="stylesheet/css/master.css"> -->
+    <link rel="stylesheet" href="stylesheet/css/out.css">
+</head>
+
+<body class="bg-amber-200">
+    <div class="mx-auto mt-24 w-[400px] h-[220px] group [perspective:1000px] z-10 ">
+
+        <div class="relative w-full h-full rounded-2xl shadow-amber-700xl transition-transform duration-700
+              [transform-style:preserve-3d]  " id="cart">
+
+            <!-- FRONT -->
+            <div class="absolute inset-0 rounded-2xl p-6 text-white
+                bg-gradient-to-br from-neutral-900 via-amber-900 to-black
+                [backface-visibility:hidden]">
+
+                <div class="flex justify-between items-start">
+                    <h3 class="font-semibold font-serif text-xl">Credit Card</h3>
+
+                    <div class="relative w-16 h-10">
+                        <span class="absolute w-10 h-10 bg-amber-400 rounded-full left-0"></span>
+                        <span class="absolute w-10 h-10 bg-orange-500 rounded-full left-4 opacity-90"></span>
+                    </div>
+                </div>
+
+                <div id="shomare" class="flex justify-center items-center mt-4 text-[20px] w-[350px] mx-auto">
+
+                </div>
+
+                <div class="flex justify-between mt-10">
+                    <div>
+                        <span class="font-serif opacity-80 font-semibold  text-[15px]">Card Holder</span>
+                        <p class="font-serif text-[15px]" id="namecard">Name on card</p>
+                    </div>
+
+                    <div class="text-right">
+                        <span class="opacity-80">Expires</span>
+                        <p id="tarikh">MM/YY</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- BACK -->
+            <div class="absolute inset-0 rounded-2xl p-6 text-white   bg-gradient-to-br from-neutral-900 via-amber-900 to-black
+                [backface-visibility:hidden]
+                [transform:rotateY(180deg)]">
+
+                <div class="h-10 bg-black w-full mt-2"></div>
+
+                <div class="mt-8 flex justify-end items-center gap-3 ">
+                    <span class="font-serif opacity-80 font-semibold  text-[15px] text-white">CVV</span>
+                    <div class="bg-white text-black px-3 py-1 rounded w-[350px] h-[50px] flex justify-center"
+                        id="akhar"></div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- فرم ورودی‌ها -->
+    <div class="form w-[500px] h-[280px] rounded-2xl bg-amber-50 mx-auto py-8 my-[-20px] 
+            flex flex-col items-center  ">
+
+        <div class="field   my-4">
+            <label for="cardNumber" class="font-semibold font-serif text-[15px]">Card Number</label>
+            <input id="cardNumber" type="text" class="border-2 border-black w-[349px] h-[40px] rounded-[10px]">
+        </div>
+
+        <div class="field  my-4">
+            <label for="cardHolder" class="font-semibold font-serif text-[15px]">Card Holder</label>
+            <input id="cardHolder" type="text" class="border-2 border-black w-[352px] h-[40px] rounded-[10px]">
+        </div>
+
+        <div class="row flex flex-row">
+            <div class="field mx-4  my-4">
+                <label for="expMonth" class="font-semibold font-serif text-[13px]">Expiration date</label>
+                <input id="expMonth" type="text" class="border-2 border-black w-[120px]  rounded-[10px]">
+            </div>
+
+            <!-- <div class="field mx-4  my-4">
+                <label for="expYear" class="font-semibold font-serif text-[13px]">Expiration Year</label>
+                <input id="expYear" type="text" class="border-2 border-black w-[120px] rounded-[10px]">
+            </div> -->
+
+            <div class="field mx-4  my-4">
+                <label for="cvv" class="font-semibold font-serif text-[13px]">CVV</label>
+                <input id="cvv" type="text" class="border-2 border-black w-[120px] rounded-[10px]">
+            </div>
+        </div>
+
+    </div>
+</body>
+<script>
+    const cardnumber = document.getElementById('cardNumber')
+    const shomare = document.getElementById('shomare')
+    let namecard = document.getElementById('namecard')
+    let cardHolder = document.getElementById('cardHolder')
+    const expMonth = document.getElementById('expMonth')
+    const cvv = document.getElementById('cvv')
+    const akhar = document.getElementById('akhar')
+    const cart = document.getElementById('cart')
+    const tarikh = document.getElementById('tarikh')
+    cardnumber.addEventListener('input', () => {
+        let txt = cardnumber.value
+        txt = txt.replace(/-/g, "")
+        // shomare.innerText = txt
+        if (txt.length >= 16) {
+            // cardnumber.value = txt.slice(0, 18)
+            txt = txt.slice(0, 16)
+        }
+        let formatted = ""
+        for (let i = 0; i < txt.length; i++) {
+            formatted += txt[i]
+            if ((i + 1) % 4 === 0 && i !== txt.length - 1) {
+                formatted += "-"
+            }
+        }
+        cardnumber.value = formatted
+        shomare.innerText = formatted
+        if (txt.length === 16) {
+            cardHolder.focus()
+        }
+
+
+    })
+    cardHolder.addEventListener('input', () => {
+        let num = cardHolder.value
+        namecard.innerText = num
+
+    })
+    expMonth.addEventListener('input', () => {
+        let date = expMonth.value
+        tarikh.innerText = date
+        date = date.replace(/\//g, "")
+        let zarf = ''
+        for (let i = 0; i < date.length; i++) {
+            zarf += date[i]
+            if ((i + 1) % 2 === 0 && i !== date.length - 1) {
+                zarf += '/'
+            }
+        }
+        expMonth.value = zarf
+        tarikh.innerText = zarf
+        if (date.length === 4) {
+            cvv.focus()
+
+
+        }
+    })
+    cvv.addEventListener('focus', () => {
+        cart.style.transform = ("rotateY(180deg)")
+
+    })
+    cvv.addEventListener('input', () => {
+        let cvv2 = cvv.value
+        akhar.innerText = cvv2
+        cvv.value = cvv2.slice(0, 6)
+
+    })
+    cvv.addEventListener('blur', () => {
+        cart.style.transform = "rotateY(0deg)";
+    });
+
+
+
+</script>
+
+</html>
+<!-- npx @tailwindcss/cli -i ./src/stylesheet/css/master.css -o ./src/stylesheet/css/out.css --watch -->
